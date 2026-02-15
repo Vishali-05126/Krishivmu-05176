@@ -3,28 +3,10 @@
  * @fileOverview A Genkit flow for recommending crops based on agricultural conditions.
  *
  * - planCrops - A function that suggests suitable crops.
- * - CropPlannerInput - The input type for the planCrops function.
- * - CropPlannerOutput - The return type for the planCrops function.
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-
-export const CropPlannerInputSchema = z.object({
-  location: z.string().describe('The geographical location (e.g., city, state, country) for planting.'),
-  soilType: z.string().describe('The type of soil (e.g., Loamy, Sandy, Clay).'),
-  month: z.string().describe('The month of the year for planting.'),
-});
-export type CropPlannerInput = z.infer<typeof CropPlannerInputSchema>;
-
-export const CropPlannerOutputSchema = z.object({
-  recommendations: z.array(z.object({
-    crop: z.string().describe('The name of the recommended crop.'),
-    reason: z.string().describe('The reason why this crop is recommended for the given conditions.'),
-    plantingTime: z.string().describe('The ideal time or period within the month to plant the crop.'),
-  })).describe('A list of crop recommendations.'),
-});
-export type CropPlannerOutput = z.infer<typeof CropPlannerOutputSchema>;
+import { CropPlannerInput, CropPlannerInputSchema, CropPlannerOutput, CropPlannerOutputSchema } from '@/ai/schemas';
 
 export async function planCrops(input: CropPlannerInput): Promise<CropPlannerOutput> {
   return cropPlannerFlow(input);

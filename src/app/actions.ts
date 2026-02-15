@@ -1,7 +1,8 @@
 'use server';
 
-import { planCrops, CropPlannerInputSchema, CropPlannerInput, CropPlannerOutput } from '@/ai/flows/ai-code-explanation';
-import { analyzeMarkets, MarketAnalysisInput, MarketAnalysisOutput } from '@/ai/flows/ai-generate-css';
+import { planCrops } from '@/ai/flows/ai-code-explanation';
+import { analyzeMarkets } from '@/ai/flows/ai-generate-css';
+import { CropPlannerInput, CropPlannerInputSchema, CropPlannerOutput, MarketAnalysisInput, MarketAnalysisOutput } from '@/ai/schemas';
 
 export async function planCropsAction(input: CropPlannerInput): Promise<{ success: boolean; data?: CropPlannerOutput; error?: string }> {
   const parsedInput = CropPlannerInputSchema.safeParse(input);

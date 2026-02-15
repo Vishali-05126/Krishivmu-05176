@@ -1,0 +1,36 @@
+import {z} from 'zod';
+
+// Schema for Crop Planner
+export const CropPlannerInputSchema = z.object({
+  location: z.string().describe('The geographical location (e.g., city, state, country) for planting.'),
+  soilType: z.string().describe('The type of soil (e.g., Loamy, Sandy, Clay).'),
+  month: z.string().describe('The month of the year for planting.'),
+});
+export type CropPlannerInput = z.infer<typeof CropPlannerInputSchema>;
+
+export const CropPlannerOutputSchema = z.object({
+  recommendations: z.array(z.object({
+    crop: z.string().describe('The name of the recommended crop.'),
+    reason: z.string().describe('The reason why this crop is recommended for the given conditions.'),
+    plantingTime: z.string().describe('The ideal time or period within the month to plant the crop.'),
+  })).describe('A list of crop recommendations.'),
+});
+export type CropPlannerOutput = z.infer<typeof CropPlannerOutputSchema>;
+
+
+// Schema for Market Analysis
+export const MarketAnalysisInputSchema = z.object({
+  crop: z.string().describe('The crop for which market analysis is required (e.g., "Tomatoes").'),
+  location: z.string().describe('The current location of the user to find nearby markets (e.g., "Nashik, Maharashtra").'),
+});
+export type MarketAnalysisInput = z.infer<typeof MarketAnalysisInputSchema>;
+
+export const MarketAnalysisOutputSchema = z.object({
+  markets: z.array(z.object({
+    marketName: z.string().describe('The name of the wholesale market.'),
+    location: z.string().describe('The location of the market.'),
+    profitMargin: z.string().describe('An estimated profit margin or current price trend, e.g., "15-20% higher than local average".'),
+    contact: z.string().describe('A fictional or sample contact person and phone number for the wholesale buyer.'),
+  })).describe('A list of recommended markets.'),
+});
+export type MarketAnalysisOutput = z.infer<typeof MarketAnalysisOutputSchema>;
