@@ -27,6 +27,7 @@ export function LandMarketplace({ onBack }: LandMarketplaceProps) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<LandMarketplaceOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showExample, setShowExample] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,6 +42,7 @@ export function LandMarketplace({ onBack }: LandMarketplaceProps) {
     setLoading(true);
     setResult(null);
     setError(null);
+    setShowExample(false);
 
     const input: LandMarketplaceInput = values;
     const response = await findLandListingsAction(input);
@@ -125,8 +127,39 @@ export function LandMarketplace({ onBack }: LandMarketplaceProps) {
           </Form>
 
           {error && <p className="text-destructive mt-4">{error}</p>}
+          
+          {showExample && (
+             <div className="mt-8">
+              <h3 className="text-2xl font-bold mb-4">Example Listings</h3>
+              <p className="text-muted-foreground mb-4">This is an example of what you can expect. Fill out the form above to get personalized results.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader><CardTitle>For Rent: 5 Acres</CardTitle><CardDescription>Near Satara, Maharashtra</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p><strong>Price:</strong> ₹50,000 per year</p>
+                    <p><strong>Contact:</strong> Anjali Deshpande</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader><CardTitle>For Sale: 10 Acres</CardTitle><CardDescription>Latur District</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p><strong>Price:</strong> ₹40,00,000</p>
+                    <p><strong>Contact:</strong> Rohan Patil</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader><CardTitle>For Rent: 3 Acres</CardTitle><CardDescription>Beed, Maharashtra</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p><strong>Price:</strong> ₹35,000 per year</p>
+                    <p><strong>Contact:</strong> Sunita Pawar</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
 
-          {result && (
+
+          {!showExample && result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Land Listings</h3>
               {result.listings.length > 0 ? (

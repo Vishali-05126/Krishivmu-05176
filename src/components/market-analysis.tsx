@@ -25,6 +25,7 @@ export function MarketAnalysis({ onBack }: MarketAnalysisProps) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<MarketAnalysisOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showExample, setShowExample] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,6 +39,7 @@ export function MarketAnalysis({ onBack }: MarketAnalysisProps) {
     setLoading(true);
     setResult(null);
     setError(null);
+    setShowExample(false);
 
     const input: MarketAnalysisInput = values;
     const response = await analyzeMarketsAction(input);
@@ -100,8 +102,39 @@ export function MarketAnalysis({ onBack }: MarketAnalysisProps) {
           </Form>
 
           {error && <p className="text-destructive mt-4">{error}</p>}
+          
+          {showExample && (
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold mb-4">Example Analysis for Tomatoes</h3>
+              <p className="text-muted-foreground mb-4">This is an example of what you can expect. Fill out the form above to get personalized results.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader><CardTitle>APMC Market, Vashi</CardTitle><CardDescription>Vashi, Navi Mumbai</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p><strong>Profit/Trend:</strong> Prices are currently 10-12% above the state average.</p>
+                    <p><strong>Contact:</strong> Rajesh Kumar - +91 98XXXXXX01</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader><CardTitle>Pune Market Yard</CardTitle><CardDescription>Gultekdi, Pune</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p><strong>Profit/Trend:</strong> High demand, stable prices.</p>
+                    <p><strong>Contact:</strong> Priya Sharma - +91 99XXXXXX02</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader><CardTitle>Nashik Main Market</CardTitle><CardDescription>Dindori Road, Nashik</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p><strong>Profit/Trend:</strong> Strong export potential, prices fluctuate.</p>
+                    <p><strong>Contact:</strong> Amit Patel - +91 97XXXXXX03</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
 
-          {result && (
+
+          {!showExample && result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Top Markets</h3>
               {result.markets.length > 0 ? (

@@ -34,6 +34,7 @@ export function SmartReminders({ onBack }: SmartRemindersProps) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<SmartRemindersOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showExample, setShowExample] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,6 +48,7 @@ export function SmartReminders({ onBack }: SmartRemindersProps) {
     setLoading(true);
     setResult(null);
     setError(null);
+    setShowExample(false);
 
     const input: SmartRemindersInput = {
       ...values,
@@ -153,8 +155,29 @@ export function SmartReminders({ onBack }: SmartRemindersProps) {
           </Form>
 
           {error && <p className="text-destructive mt-4">{error}</p>}
+          
+          {showExample && (
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold mb-4">Example Schedule for Wheat</h3>
+              <p className="text-muted-foreground mb-4">This is an example of what you can expect. Fill out the form above to get a personalized schedule.</p>
+              <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>Week 1: Initial Watering & Germination</AccordionTrigger>
+                  <AccordionContent>Ensure the soil is consistently moist to encourage germination. Water every 2-3 days depending on weather.</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger>Week 2-3: Thinning and Weeding</AccordionTrigger>
+                  <AccordionContent>Once seedlings are a few inches tall, thin them to the recommended spacing. Remove any competing weeds.</AccordionContent>
+                </AccordionItem>
+                 <AccordionItem value="item-3">
+                  <AccordionTrigger>Week 4: First Fertilization</AccordionTrigger>
+                  <AccordionContent>Apply a balanced nitrogen-rich fertilizer to promote leafy growth. Follow package instructions for application rates.</AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          )}
 
-          {result && (
+          {!showExample && result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Your Crop Care Schedule</h3>
               {result.reminders.length > 0 ? (

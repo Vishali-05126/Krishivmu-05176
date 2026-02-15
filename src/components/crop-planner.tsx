@@ -26,6 +26,7 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CropPlannerOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showExample, setShowExample] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,6 +41,7 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
     setLoading(true);
     setResult(null);
     setError(null);
+    setShowExample(false);
     
     const input: CropPlannerInput = values;
     const response = await planCropsAction(input);
@@ -116,7 +118,28 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
 
           {error && <p className="text-destructive mt-4">{error}</p>}
           
-          {result && (
+          {showExample && (
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold mb-4">Example Recommendations</h3>
+              <p className="text-muted-foreground mb-4">This is an example of what you can expect. Fill out the form above to get personalized advice.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader><CardTitle>Soybean</CardTitle><CardDescription>Best planting time: Early to Mid June</CardDescription></CardHeader>
+                  <CardContent><p>Well-suited for the loamy soil and warm conditions of Maharashtra in June.</p></CardContent>
+                </Card>
+                <Card>
+                  <CardHeader><CardTitle>Cotton</CardTitle><CardDescription>Best planting time: Throughout June</CardDescription></CardHeader>
+                  <CardContent><p>Thrives in the climate and is a profitable cash crop in this region.</p></CardContent>
+                </Card>
+                <Card>
+                  <CardHeader><CardTitle>Turmeric</CardTitle><CardDescription>Best planting time: Late June</CardDescription></CardHeader>
+                  <CardContent><p>Good for intercropping and has high demand. Requires well-drained soil.</p></CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
+
+          {!showExample && result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Crop Recommendations</h3>
               {result.recommendations.length > 0 ? (

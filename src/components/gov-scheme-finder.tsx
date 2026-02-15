@@ -26,6 +26,7 @@ export function GovSchemeFinder({ onBack }: GovSchemeFinderProps) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<GovSchemeOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showExample, setShowExample] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,6 +41,7 @@ export function GovSchemeFinder({ onBack }: GovSchemeFinderProps) {
     setLoading(true);
     setResult(null);
     setError(null);
+    setShowExample(false);
 
     const input: GovSchemeInput = values;
     const response = await findGovSchemesAction(input);
@@ -115,8 +117,33 @@ export function GovSchemeFinder({ onBack }: GovSchemeFinderProps) {
           </Form>
 
           {error && <p className="text-destructive mt-4">{error}</p>}
+          
+          {showExample && (
+             <div className="mt-8">
+              <h3 className="text-2xl font-bold mb-4">Example Schemes</h3>
+               <p className="text-muted-foreground mb-4">This is an example of what you can expect. Fill out the form above to get personalized results.</p>
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader><CardTitle>Pradhan Mantri Fasal Bima Yojana (PMFBY)</CardTitle></CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold">Description</h4>
+                      <p className="text-muted-foreground">An insurance service for farmers for their yields, providing financial support in case of crop failure.</p>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold">Eligibility</h4>
+                      <p className="text-muted-foreground">All farmers including sharecroppers and tenant farmers growing notified crops in notified areas are eligible.</p>
+                    </div>
+                    <Button asChild variant="link" className="p-0 h-auto">
+                      <a href="https://pmfby.gov.in/" target="_blank" rel="noopener noreferrer">Learn More</a>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
 
-          {result && (
+          {!showExample && result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Recommended Schemes</h3>
               {result.schemes.length > 0 ? (

@@ -26,6 +26,7 @@ export function FarmerExchange({ onBack }: FarmerExchangeProps) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<FarmerExchangeOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showExample, setShowExample] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,6 +41,7 @@ export function FarmerExchange({ onBack }: FarmerExchangeProps) {
     setLoading(true);
     setResult(null);
     setError(null);
+    setShowExample(false);
 
     const input: FarmerExchangeInput = values;
     const response = await findExchangeMatchesAction(input);
@@ -115,8 +117,38 @@ export function FarmerExchange({ onBack }: FarmerExchangeProps) {
           </Form>
 
           {error && <p className="text-destructive mt-4">{error}</p>}
+          
+          {showExample && (
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold mb-4">Example Matches</h3>
+               <p className="text-muted-foreground mb-4">This is an example of what you can expect. Fill out the form above to get personalized results.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                 <Card>
+                  <CardHeader><CardTitle>Sanjay Patil</CardTitle><CardDescription>Near Baramati, Maharashtra</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p>Has 5 tons of high-quality onions, wants 4 tons of Jowar (Sorghum).</p>
+                    <p><strong>Contact:</strong> +91 99XXXXXX02</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader><CardTitle>Anita Rao</CardTitle><CardDescription>Near Nashik, Maharashtra</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p>Has 10 tons of grapes, wants 8 tons of wheat.</p>
+                    <p><strong>Contact:</strong> +91 98XXXXXX03</p>
+                  </CardContent>
+                </Card>
+                 <Card>
+                  <CardHeader><CardTitle>Vikram Singh</CardTitle><CardDescription>Near Ahmednagar, Maharashtra</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p>Has 2 tons of pomegranates, wants 1.5 tons of soybeans.</p>
+                    <p><strong>Contact:</strong> +91 97XXXXXX04</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
 
-          {result && (
+          {!showExample && result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Potential Matches</h3>
               {result.matches.length > 0 ? (

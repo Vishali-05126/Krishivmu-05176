@@ -25,6 +25,7 @@ export function EquipmentRental({ onBack }: EquipmentRentalProps) {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<EquipmentRentalOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showExample, setShowExample] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,6 +39,7 @@ export function EquipmentRental({ onBack }: EquipmentRentalProps) {
     setLoading(true);
     setResult(null);
     setError(null);
+    setShowExample(false);
 
     const input: EquipmentRentalInput = values;
     const response = await findEquipmentRentalsAction(input);
@@ -101,7 +103,37 @@ export function EquipmentRental({ onBack }: EquipmentRentalProps) {
 
           {error && <p className="text-destructive mt-4">{error}</p>}
 
-          {result && (
+          {showExample && (
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold mb-4">Example Listings</h3>
+              <p className="text-muted-foreground mb-4">This is an example of what you can expect. Fill out the form above to get personalized results.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader><CardTitle>Krishi Seva Kendra</CardTitle><CardDescription>123, Main Road, Nagpur</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p><strong>Price:</strong> ₹2000/day</p>
+                    <p><strong>Contact:</strong> +91 97XXXXXX03</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader><CardTitle>Maharashtra Agro Tech</CardTitle><CardDescription>45, Industrial Area, Nagpur</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p><strong>Price:</strong> ₹2200/day</p>
+                    <p><strong>Contact:</strong> +91 96XXXXXX04</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader><CardTitle>FarmRent Solutions</CardTitle><CardDescription>78, Agri Market, Nagpur</CardDescription></CardHeader>
+                  <CardContent className="space-y-2">
+                    <p><strong>Price:</strong> ₹1900/day</p>
+                    <p><strong>Contact:</strong> +91 95XXXXXX05</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
+
+          {!showExample && result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Rental Providers</h3>
               {result.rentals.length > 0 ? (
