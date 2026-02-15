@@ -14,6 +14,7 @@ export async function findGovSchemes(input: GovSchemeInput): Promise<GovSchemeOu
 
 const govSchemePrompt = ai.definePrompt({
   name: 'govSchemePrompt',
+  model: 'gemini-1.5-flash-latest',
   input: {schema: GovSchemeInputSchema},
   output: {schema: GovSchemeOutputSchema},
   prompt: `You are an expert on agricultural government schemes in India. Based on the user's location, crop, and category, find the top 3 most relevant government schemes.

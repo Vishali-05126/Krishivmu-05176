@@ -14,6 +14,7 @@ export async function findLandListings(input: LandMarketplaceInput): Promise<Lan
 
 const landMarketplacePrompt = ai.definePrompt({
   name: 'landMarketplacePrompt',
+  model: 'gemini-1.5-flash-latest',
   input: {schema: LandMarketplaceInputSchema},
   output: {schema: LandMarketplaceOutputSchema},
   prompt: `You are an agricultural land marketplace platform. A user wants to buy, sell, or rent land.

@@ -14,6 +14,7 @@ export async function planCrops(input: CropPlannerInput): Promise<CropPlannerOut
 
 const cropPlannerPrompt = ai.definePrompt({
   name: 'cropPlannerPrompt',
+  model: 'gemini-1.5-flash-latest',
   input: {schema: CropPlannerInputSchema},
   output: {schema: CropPlannerOutputSchema},
   prompt: `You are an expert agronomist. Your task is to recommend the top 3 most suitable crops to plant based on the user's location, soil type, and the current month.

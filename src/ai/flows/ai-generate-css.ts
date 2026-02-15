@@ -14,6 +14,7 @@ export async function analyzeMarkets(input: MarketAnalysisInput): Promise<Market
 
 const marketAnalysisPrompt = ai.definePrompt({
   name: 'marketAnalysisPrompt',
+  model: 'gemini-1.5-flash-latest',
   input: {schema: MarketAnalysisInputSchema},
   output: {schema: MarketAnalysisOutputSchema},
   prompt: `You are an expert market analyst for agricultural produce. Your task is to identify the top 3 wholesale markets near the user's location to sell their crop for the highest profit.

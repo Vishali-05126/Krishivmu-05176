@@ -14,6 +14,7 @@ export async function findExchangeMatches(input: FarmerExchangeInput): Promise<F
 
 const farmerExchangePrompt = ai.definePrompt({
   name: 'farmerExchangePrompt',
+  model: 'gemini-1.5-flash-latest',
   input: {schema: FarmerExchangeInputSchema},
   output: {schema: FarmerExchangeOutputSchema},
   prompt: `You are an expert agricultural exchange platform. Your task is to find 3 potential matches for a farmer wanting to exchange crops.

@@ -14,6 +14,7 @@ export async function findEquipmentRentals(input: EquipmentRentalInput): Promise
 
 const equipmentRentalPrompt = ai.definePrompt({
   name: 'equipmentRentalPrompt',
+  model: 'gemini-1.5-flash-latest',
   input: {schema: EquipmentRentalInputSchema},
   output: {schema: EquipmentRentalOutputSchema},
   prompt: `You are an agricultural equipment rental directory. The user is looking for a specific tool or machinery in their area.

@@ -14,6 +14,7 @@ export async function generateReminders(input: SmartRemindersInput): Promise<Sma
 
 const smartRemindersPrompt = ai.definePrompt({
   name: 'smartRemindersPrompt',
+  model: 'gemini-1.5-flash-latest',
   input: {schema: SmartRemindersInputSchema},
   output: {schema: SmartRemindersOutputSchema},
   prompt: `You are an expert agronomist providing a task schedule for a farmer. Based on the crop, planting date, and location, create a 12-week schedule of essential tasks like watering, fertilizing, and pest control.
