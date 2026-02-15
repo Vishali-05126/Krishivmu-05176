@@ -1,67 +1,59 @@
 'use server';
 /**
- * @fileOverview This file implements a Genkit flow for explaining the interplay between HTML and CSS code.
+ * @fileOverview A Genkit flow for recommending crops based on agricultural conditions.
  *
- * - aiCodeExplanation - A function that provides insights into how HTML components and CSS styles are interconnected.
- * - AICodeExplanationInput - The input type for the aiCodeExplanation function.
- * - AICodeExplanationOutput - The return type for the aiCodeExplanation function.
+ * - planCrops - A function that suggests suitable crops.
+ * - CropPlannerInput - The input type for the planCrops function.
+ * - CropPlannerOutput - The return type for the planCrops function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const AICodeExplanationInputSchema = z.object({
-  htmlContent: z
-    .string()
-    .describe('The HTML content to be analyzed, including its structure and elements.'),
-  cssContent: z
-    .string()
-    .describe('The CSS content to be analyzed, including its styling rules.'),
+export const CropPlannerInputSchema = z.object({
+  location: z.string().describe('The geographical location (e.g., city, state, country) for planting.'),
+  soilType: z.string().describe('The type of soil (e.g., Loamy, Sandy, Clay).'),
+  month: z.string().describe('The month of the year for planting.'),
 });
-export type AICodeExplanationInput = z.infer<typeof AICodeExplanationInputSchema>;
+export type CropPlannerInput = z.infer<typeof CropPlannerInputSchema>;
 
-const AICodeExplanationOutputSchema = z.object({
-  explanation: z
-    .string()
-    .describe(
-      'A detailed explanation of how HTML components are styled by the CSS, focusing on interdependencies via selectors, classes, and IDs.'
-    ),
+export const CropPlannerOutputSchema = z.object({
+  recommendations: z.array(z.object({
+    crop: z.string().describe('The name of the recommended crop.'),
+    reason: z.string().describe('The reason why this crop is recommended for the given conditions.'),
+    plantingTime: z.string().describe('The ideal time or period within the month to plant the crop.'),
+  })).describe('A list of crop recommendations.'),
 });
-export type AICodeExplanationOutput = z.infer<typeof AICodeExplanationOutputSchema>;
+export type CropPlannerOutput = z.infer<typeof CropPlannerOutputSchema>;
 
-export async function aiCodeExplanation(input: AICodeExplanationInput): Promise<AICodeExplanationOutput> {
-  return aiCodeExplanationFlow(input);
+export async function planCrops(input: CropPlannerInput): Promise<CropPlannerOutput> {
+  return cropPlannerFlow(input);
 }
 
-const aiCodeExplanationPrompt = ai.definePrompt({
-  name: 'aiCodeExplanationPrompt',
-  input: {schema: AICodeExplanationInputSchema},
-  output: {schema: AICodeExplanationOutputSchema},
-  prompt: `You are an expert web developer assistant. Your task is to analyze the provided HTML and CSS code and explain how they are interconnected.
-Focus on how CSS rules (e.g., using element selectors, class selectors, ID selectors) apply to and affect specific HTML elements.
-Provide a clear and concise explanation, highlighting key relationships and dependencies between the HTML structure and the CSS styling.
+const cropPlannerPrompt = ai.definePrompt({
+  name: 'cropPlannerPrompt',
+  input: {schema: CropPlannerInputSchema},
+  output: {schema: CropPlannerOutputSchema},
+  prompt: `You are an expert agronomist. Your task is to recommend the top 3 most suitable crops to plant based on the user's location, soil type, and the current month.
 
-### HTML Code:
-\`\`\`html
-{{{htmlContent}}}
-\`\`\`
+Provide practical and actionable recommendations. For each crop, give a concise reason and the best planting time.
 
-### CSS Code:
-\`\`\`css
-{{{cssContent}}}
-\`\`\`
+### User's Input:
+- Location: {{{location}}}
+- Soil Type: {{{soilType}}}
+- Month: {{{month}}}
 
-### Explanation:`,
+### Your Recommendations:`,
 });
 
-const aiCodeExplanationFlow = ai.defineFlow(
+const cropPlannerFlow = ai.defineFlow(
   {
-    name: 'aiCodeExplanationFlow',
-    inputSchema: AICodeExplanationInputSchema,
-    outputSchema: AICodeExplanationOutputSchema,
+    name: 'cropPlannerFlow',
+    inputSchema: CropPlannerInputSchema,
+    outputSchema: CropPlannerOutputSchema,
   },
   async input => {
-    const {output} = await aiCodeExplanationPrompt(input);
+    const {output} = await cropPlannerPrompt(input);
     return output!;
   }
 );

@@ -1,80 +1,58 @@
 'use server';
 /**
- * @fileOverview A Genkit flow for generating a basic style.css file based on UI style preferences.
+ * @fileOverview A Genkit flow for analyzing market data for agricultural produce.
  *
- * - aiGenerateCSS - A function that generates CSS content.
- * - AIGenerateCSSInput - The input type for the aiGenerateCSS function.
- * - AIGenerateCSSOutput - The return type for the aiGenerateCSS function.
+ * - analyzeMarkets - A function that provides market insights.
+ * - MarketAnalysisInput - The input type for the analyzeMarkets function.
+ * - MarketAnalysisOutput - The return type for the analyzeMarkets function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-const AIGenerateCSSInputSchema = z.object({
-  primaryColor: z
-    .string()
-    .describe('The primary color for the UI, e.g., #D0BFFF.'),
-  backgroundColor: z
-    .string()
-    .describe('The background color for the UI, e.g., #F5F5F5.'),
-  accentColor: z
-    .string()
-    .describe('The accent color for the UI, e.g., #A483B9.'),
-  bodyFont: z.string().describe('The font family for body text, e.g., Inter.'),
-  headlineFont: z
-    .string()
-    .describe('The font family for headlines, e.g., Inter.'),
+export const MarketAnalysisInputSchema = z.object({
+  crop: z.string().describe('The crop for which market analysis is required (e.g., "Tomatoes").'),
+  location: z.string().describe('The current location of the user to find nearby markets (e.g., "Nashik, Maharashtra").'),
 });
-export type AIGenerateCSSInput = z.infer<typeof AIGenerateCSSInputSchema>;
+export type MarketAnalysisInput = z.infer<typeof MarketAnalysisInputSchema>;
 
-const AIGenerateCSSOutputSchema = z.object({
-  cssContent: z.string().describe('The generated CSS content for style.css.'),
+export const MarketAnalysisOutputSchema = z.object({
+  markets: z.array(z.object({
+    marketName: z.string().describe('The name of the wholesale market.'),
+    location: z.string().describe('The location of the market.'),
+    profitMargin: z.string().describe('An estimated profit margin or current price trend, e.g., "15-20% higher than local average".'),
+    contact: z.string().describe('A fictional or sample contact person and phone number for the wholesale buyer.'),
+  })).describe('A list of recommended markets.'),
 });
-export type AIGenerateCSSOutput = z.infer<typeof AIGenerateCSSOutputSchema>;
+export type MarketAnalysisOutput = z.infer<typeof MarketAnalysisOutputSchema>;
 
-export async function aiGenerateCSS(input: AIGenerateCSSInput): Promise<AIGenerateCSSOutput> {
-  return aiGenerateCSSFlow(input);
+export async function analyzeMarkets(input: MarketAnalysisInput): Promise<MarketAnalysisOutput> {
+  return marketAnalysisFlow(input);
 }
 
-const aiGenerateCSSPrompt = ai.definePrompt({
-  name: 'aiGenerateCSSPrompt',
-  input: {schema: AIGenerateCSSInputSchema},
-  output: {schema: AIGenerateCSSOutputSchema},
-  prompt: `You are an expert web designer assistant tasked with generating a basic 'style.css' file based on user-provided UI preferences. Your output should be a complete, well-formatted CSS string.
+const marketAnalysisPrompt = ai.definePrompt({
+  name: 'marketAnalysisPrompt',
+  input: {schema: MarketAnalysisInputSchema},
+  output: {schema: MarketAnalysisOutputSchema},
+  prompt: `You are an expert market analyst for agricultural produce. Your task is to identify the top 3 wholesale markets near the user's location to sell their crop for the highest profit.
 
-Generate CSS that incorporates the following styles:
--   A basic reset for margin and padding on common elements (body, h1-h6, p, ul, ol, li).
--   'body' styles including 'font-family' using '{{bodyFont}}' with a generic fallback, 'background-color' using '{{backgroundColor}}', and a default 'color' for text like #333. Include 'line-height: 1.6;'.
--   'h1' through 'h6' styles using 'font-family' as '{{headlineFont}}' with a generic fallback, 'color' as '{{primaryColor}}', and 'margin-bottom: 0.5em;'.
--   A '.button' class that uses '{{primaryColor}}' for 'background-color', white text, padding, no border, border-radius of 5px, and 'cursor: pointer;'.
--   A ':hover' state for '.button' that changes 'background-color' to '{{accentColor}}'.
--   A '.accent-text' class that sets 'color' to '{{accentColor}}'.
+For each market, provide its name, location, an estimated profit margin or price trend, and a sample wholesale buyer contact.
 
-Ensure that all font names are enclosed in single quotes if they contain spaces, and always include a generic font family fallback like 'sans-serif'.
+### User's Input:
+- Crop: {{{crop}}}
+- Location: {{{location}}}
 
-Return only the CSS content within the 'cssContent' field.
-
-Example:
-{
-  "cssContent": "/* Generated CSS content goes here */"
-}
-
-Primary Color: {{{primaryColor}}}
-Background Color: {{{backgroundColor}}}
-Accent Color: {{{accentColor}}}
-Body Font: {{{bodyFont}}}
-Headline Font: {{{headlineFont}}}
-`,
+### Your Market Analysis:`,
 });
 
-const aiGenerateCSSFlow = ai.defineFlow(
+const marketAnalysisFlow = ai.defineFlow(
   {
-    name: 'aiGenerateCSSFlow',
-    inputSchema: AIGenerateCSSInputSchema,
-    outputSchema: AIGenerateCSSOutputSchema,
+    name: 'marketAnalysisFlow',
+    inputSchema: MarketAnalysisInputSchema,
+    outputSchema: MarketAnalysisOutputSchema,
   },
   async input => {
-    const {output} = await aiGenerateCSSPrompt(input);
+    const {output} = await marketAnalysisPrompt(input);
     return output!;
   }
 );
