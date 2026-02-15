@@ -1,5 +1,6 @@
-import { Leaf, Mic } from 'lucide-react';
+import { Leaf, Mic, User, Globe } from 'lucide-react';
 import { Button } from './ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 export function Header() {
   return (
@@ -9,10 +10,32 @@ export function Header() {
           <Leaf className="h-8 w-8 text-primary" />
           <h1 className="text-2xl font-bold tracking-tight text-card-foreground">KrishivSeth AI</h1>
         </div>
-        <Button variant="ghost" size="icon">
-          <Mic className="h-6 w-6" />
-          <span className="sr-only">Voice Assistant</span>
-        </Button>
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon">
+            <Mic className="h-6 w-6" />
+            <span className="sr-only">Voice Assistant</span>
+          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Globe className="h-6 w-6" />
+                <span className="sr-only">Select Language</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>English</DropdownMenuItem>
+              <DropdownMenuItem>हिन्दी</DropdownMenuItem>
+              <DropdownMenuItem>తెలుగు</DropdownMenuItem>
+              <DropdownMenuItem>தமிழ்</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Button variant="ghost" size="icon">
+            <User className="h-6 w-6" />
+            <span className="sr-only">User Profile</span>
+          </Button>
+        </div>
       </div>
     </header>
   );
