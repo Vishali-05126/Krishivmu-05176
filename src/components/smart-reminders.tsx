@@ -30,19 +30,9 @@ interface SmartRemindersProps {
   onBack: () => void;
 }
 
-const sampleResult: SmartRemindersOutput = {
-  reminders: [
-    { week: 1, task: 'Watering & Germination', details: 'Ensure soil is moist. Water every 2-3 days. Watch for initial sprouting.' },
-    { week: 2, task: 'First Fertilization', details: 'Apply a balanced, low-dose fertilizer. Avoid over-fertilizing young sprouts.' },
-    { week: 3, task: 'Weed Control', details: 'Gently remove any weeds by hand to avoid competition for nutrients.' },
-    { week: 4, task: 'Pest Scouting', details: 'Check leaves for any signs of common pests. Early detection is key.' },
-  ],
-};
-
-
 export function SmartReminders({ onBack }: SmartRemindersProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<SmartRemindersOutput | null>(sampleResult);
+  const [result, setResult] = useState<SmartRemindersOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -167,7 +157,7 @@ export function SmartReminders({ onBack }: SmartRemindersProps) {
           {result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Your Crop Care Schedule</h3>
-               <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
+               <Accordion type="single" collapsible className="w-full">
                 {result.reminders.map((reminder) => (
                     <AccordionItem value={`item-${reminder.week}`} key={reminder.week}>
                         <AccordionTrigger>Week {reminder.week}: {reminder.task}</AccordionTrigger>

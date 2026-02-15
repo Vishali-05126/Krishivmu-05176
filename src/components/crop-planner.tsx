@@ -22,30 +22,9 @@ interface CropPlannerProps {
   onBack: () => void;
 }
 
-const sampleResult: CropPlannerOutput = {
-  recommendations: [
-    {
-      crop: 'Tomatoes',
-      reason: 'Ideal for the soil and climate in this region, with high market demand.',
-      plantingTime: 'First two weeks of the month',
-    },
-    {
-      crop: 'Onions',
-      reason: 'Resilient crop with good storage life and profitability.',
-      plantingTime: 'Throughout the month',
-    },
-    {
-      crop: 'Leafy Greens (e.g., Spinach)',
-      reason: 'Fast-growing, allows for multiple harvests, and is always in demand.',
-      plantingTime: 'Mid to late month',
-    },
-  ],
-};
-
-
 export function CropPlanner({ onBack }: CropPlannerProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<CropPlannerOutput | null>(sampleResult);
+  const [result, setResult] = useState<CropPlannerOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({

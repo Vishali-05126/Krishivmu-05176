@@ -22,33 +22,9 @@ interface FarmerExchangeProps {
   onBack: () => void;
 }
 
-const sampleResult: FarmerExchangeOutput = {
-  matches: [
-    {
-      farmerName: 'Anil Kumar',
-      location: 'Nearby Village, 15km away',
-      contact: '+91 98765 11111',
-      exchangeDetails: 'Has high-quality Rice, looking for Wheat.',
-    },
-    {
-      farmerName: 'Sunita Devi',
-      location: 'Local Farming Community, 25km away',
-      contact: '+91 91234 22222',
-      exchangeDetails: 'Offers Rice and is open to bartering for Wheat or Maize.',
-    },
-    {
-      farmerName: 'Rajesh Farms',
-      location: ' Neighboring District, 40km away',
-      contact: '+91 99887 33333',
-      exchangeDetails: 'Large rice producer, wants to diversify with Wheat.',
-    },
-  ],
-};
-
-
 export function FarmerExchange({ onBack }: FarmerExchangeProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<FarmerExchangeOutput | null>(sampleResult);
+  const [result, setResult] = useState<FarmerExchangeOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({

@@ -21,33 +21,9 @@ interface MarketAnalysisProps {
   onBack: () => void;
 }
 
-const sampleResult: MarketAnalysisOutput = {
-  markets: [
-    {
-      marketName: 'Central Wholesale Market',
-      location: 'City Center, Main Hub',
-      profitMargin: 'Est. 15-20% higher than average',
-      contact: 'Mr. Gupta, +91 98765 43210',
-    },
-    {
-      marketName: 'Greenfield Agri-Traders',
-      location: 'Industrial Area, Plot 42',
-      profitMargin: 'Stable prices, bulk orders preferred',
-      contact: 'Ms. Reddy, +91 91234 56789',
-    },
-    {
-      marketName: 'Organic Produce Hub',
-      location: 'Outskirts, Highway Exit 7',
-      profitMargin: 'Premium prices for certified organic produce',
-      contact: 'Mr. Khan, +91 99887 76655',
-    },
-  ],
-};
-
-
 export function MarketAnalysis({ onBack }: MarketAnalysisProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<MarketAnalysisOutput | null>(sampleResult);
+  const [result, setResult] = useState<MarketAnalysisOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
