@@ -34,3 +34,21 @@ export const MarketAnalysisOutputSchema = z.object({
   })).describe('A list of recommended markets.'),
 });
 export type MarketAnalysisOutput = z.infer<typeof MarketAnalysisOutputSchema>;
+
+// Schema for Farmer to Farmer Exchange
+export const FarmerExchangeInputSchema = z.object({
+  haveCrop: z.string().describe('The crop the farmer has and wants to exchange.'),
+  wantCrop: z.string().describe('The crop the farmer wants to receive in exchange.'),
+  location: z.string().describe('The location of the farmer to find nearby matches.'),
+});
+export type FarmerExchangeInput = z.infer<typeof FarmerExchangeInputSchema>;
+
+export const FarmerExchangeOutputSchema = z.object({
+  matches: z.array(z.object({
+    farmerName: z.string().describe('A fictional name for the matching farmer.'),
+    location: z.string().describe('The location of the matching farmer.'),
+    contact: z.string().describe('A fictional contact number for the matching farmer.'),
+    exchangeDetails: z.string().describe('Details of what the matching farmer is offering and wanting.'),
+  })).describe('A list of potential farmer exchange matches.'),
+});
+export type FarmerExchangeOutput = z.infer<typeof FarmerExchangeOutputSchema>;

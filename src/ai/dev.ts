@@ -3,3 +3,4 @@ config();
 
 import '@/ai/flows/ai-code-explanation.ts';
 import '@/ai/flows/ai-generate-css.ts';
+import '@/ai/flows/farmer-exchange-flow.ts';

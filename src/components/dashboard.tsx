@@ -6,6 +6,7 @@ import { Sprout, Wrench, Landmark, BarChart, Bell, Handshake, Repeat } from 'luc
 import { CropPlanner } from './crop-planner';
 import { MarketAnalysis } from './market-analysis';
 import { useToast } from '@/hooks/use-toast';
+import { FarmerExchange } from './farmer-exchange';
 
 type Feature = {
   id: string;
@@ -72,6 +73,7 @@ export function Dashboard() {
       description: 'Exchange or barter crops, like wheat for rice, directly with other farmers.',
       icon: Repeat,
       className: 'text-accent bg-accent/10',
+      component: FarmerExchange,
     },
   ];
 
