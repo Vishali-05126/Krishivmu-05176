@@ -21,9 +21,33 @@ interface EquipmentRentalProps {
   onBack: () => void;
 }
 
+const sampleResult: EquipmentRentalOutput = {
+  rentals: [
+    {
+      providerName: 'Agri-Hire Solutions',
+      location: '12, Industrial Estate, Near Main Road',
+      contact: '+91 98765 44444',
+      price: '₹2000/day (est.)',
+    },
+    {
+      providerName: 'FarmTool Rentals Co.',
+      location: '45, Rural Connect Road, Outskirts',
+      contact: '+91 91234 55555',
+      price: '₹1800/day (est.)',
+    },
+    {
+      providerName: 'Kisan Machinery',
+      location: 'Shop 7, Agri Market Complex',
+      contact: '+91 99887 66666',
+      price: '₹2200/day (est.)',
+    },
+  ],
+};
+
+
 export function EquipmentRental({ onBack }: EquipmentRentalProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<EquipmentRentalOutput | null>(null);
+  const [result, setResult] = useState<EquipmentRentalOutput | null>(sampleResult);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({

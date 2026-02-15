@@ -30,9 +30,19 @@ interface SmartRemindersProps {
   onBack: () => void;
 }
 
+const sampleResult: SmartRemindersOutput = {
+  reminders: [
+    { week: 1, task: 'Watering & Germination', details: 'Ensure soil is moist. Water every 2-3 days. Watch for initial sprouting.' },
+    { week: 2, task: 'First Fertilization', details: 'Apply a balanced, low-dose fertilizer. Avoid over-fertilizing young sprouts.' },
+    { week: 3, task: 'Weed Control', details: 'Gently remove any weeds by hand to avoid competition for nutrients.' },
+    { week: 4, task: 'Pest Scouting', details: 'Check leaves for any signs of common pests. Early detection is key.' },
+  ],
+};
+
+
 export function SmartReminders({ onBack }: SmartRemindersProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<SmartRemindersOutput | null>(null);
+  const [result, setResult] = useState<SmartRemindersOutput | null>(sampleResult);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({

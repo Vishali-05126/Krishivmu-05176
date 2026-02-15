@@ -22,9 +22,33 @@ interface GovSchemeFinderProps {
   onBack: () => void;
 }
 
+const sampleResult: GovSchemeOutput = {
+  schemes: [
+    {
+      name: 'Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)',
+      description: 'Provides income support to all landholding farmer families.',
+      eligibility: 'All landholding farmers\' families.',
+      link: 'https://pmkisan.gov.in/',
+    },
+    {
+      name: 'Pradhan Mantri Fasal Bima Yojana (PMFBY)',
+      description: 'An insurance service for farmers for their yields.',
+      eligibility: 'All farmers including sharecroppers and tenant farmers growing notified crops in the notified areas are eligible for coverage.',
+      link: 'https://pmfby.gov.in/',
+    },
+    {
+      name: 'Kisan Credit Card (KCC) Scheme',
+      description: 'Provides farmers with timely access to credit.',
+      eligibility: 'All farmers - individuals/joint borrowers who are owner cultivators.',
+      link: 'https://www.sbi.co.in/web/agri-rural/agriculture-banking/crop-finance/kisan-credit-card',
+    },
+  ],
+};
+
+
 export function GovSchemeFinder({ onBack }: GovSchemeFinderProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<GovSchemeOutput | null>(null);
+  const [result, setResult] = useState<GovSchemeOutput | null>(sampleResult);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({

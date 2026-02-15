@@ -23,9 +23,36 @@ interface LandMarketplaceProps {
   onBack: () => void;
 }
 
+const sampleResult: LandMarketplaceOutput = {
+  listings: [
+    {
+      listingType: 'For Sale',
+      location: 'Green Valley, 10km from city',
+      size: '5 Acres',
+      price: '₹50,00,000',
+      contact: 'Mr. Sharma, +91 98765 77777',
+    },
+    {
+      listingType: 'For Rent',
+      location: 'Riverbank Farms, Near Highway',
+      size: '10 Acres',
+      price: '₹1,00,000/year',
+      contact: 'Mrs. Patel, +91 91234 88888',
+    },
+    {
+      listingType: 'For Sale',
+      location: 'Hillside Plots, Scenic View',
+      size: '2 Acres',
+      price: '₹25,00,000',
+      contact: 'Mr. Singh, +91 99887 99999',
+    },
+  ],
+};
+
+
 export function LandMarketplace({ onBack }: LandMarketplaceProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<LandMarketplaceOutput | null>(null);
+  const [result, setResult] = useState<LandMarketplaceOutput | null>(sampleResult);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
