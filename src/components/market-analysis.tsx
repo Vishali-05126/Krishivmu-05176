@@ -21,32 +21,9 @@ interface MarketAnalysisProps {
   onBack: () => void;
 }
 
-const sampleResult: MarketAnalysisOutput = {
-  markets: [
-    {
-      marketName: 'Sample: APMC Market, Vashi',
-      location: 'Navi Mumbai, Maharashtra',
-      profitMargin: 'Prices are currently 10-15% above average due to high demand.',
-      contact: 'Fictional Buyer: +91-9876543210'
-    },
-    {
-      marketName: 'Sample: Lasalgaon Onion Market',
-      location: 'Lasalgaon, Nashik, Maharashtra',
-      profitMargin: 'Stable prices with high volume trading. Good for bulk sales.',
-      contact: 'Fictional Wholesaler: +91-9123456789'
-    },
-    {
-      marketName: 'Sample: Azadpur Mandi',
-      location: 'Delhi',
-      profitMargin: 'Highest profit potential but involves higher logistics costs.',
-      contact: 'Fictional Trader: +91-9988776655'
-    }
-  ]
-};
-
 export function MarketAnalysis({ onBack }: MarketAnalysisProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<MarketAnalysisOutput | null>(sampleResult);
+  const [result, setResult] = useState<MarketAnalysisOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -82,7 +59,7 @@ export function MarketAnalysis({ onBack }: MarketAnalysisProps) {
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
           <CardTitle>Market Analysis</CardTitle>
-          <CardDescription>Discover the best markets to sell your produce for maximum profit. Below is a sample output.</CardDescription>
+          <CardDescription>Discover the best markets to sell your produce for maximum profit.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

@@ -23,35 +23,9 @@ interface LandMarketplaceProps {
   onBack: () => void;
 }
 
-const sampleResult: LandMarketplaceOutput = {
-    listings: [
-        {
-            listingType: 'For Sale',
-            location: 'Maval, Maharashtra',
-            size: '10 Acres',
-            price: '₹80 Lakhs',
-            contact: 'Sample Seller: Mr. Patel (+91-9876543211)'
-        },
-        {
-            listingType: 'For Rent',
-            location: 'Khed, Maharashtra',
-            size: '5 Acres',
-            price: '₹50,000 per year',
-            contact: 'Sample Owner: Mrs. Rao (+91-9123456788)'
-        },
-        {
-            listingType: 'For Sale',
-            location: 'Baramati, Maharashtra',
-            size: '15 Acres, riverside',
-            price: '₹1.5 Crore',
-            contact: 'Sample Agent: Real Farms Inc. (+91-9988776654)'
-        }
-    ]
-};
-
 export function LandMarketplace({ onBack }: LandMarketplaceProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<LandMarketplaceOutput | null>(sampleResult);
+  const [result, setResult] = useState<LandMarketplaceOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -88,7 +62,7 @@ export function LandMarketplace({ onBack }: LandMarketplaceProps) {
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
           <CardTitle>Land Marketplace</CardTitle>
-          <CardDescription>Buy, sell, or rent agricultural land in your area. Below is a sample output.</CardDescription>
+          <CardDescription>Buy, sell, or rent agricultural land in your area.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

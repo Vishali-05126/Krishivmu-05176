@@ -30,18 +30,9 @@ interface SmartRemindersProps {
   onBack: () => void;
 }
 
-const sampleResult: SmartRemindersOutput = {
-    reminders: [
-        { week: 1, task: "Sample: Soil Preparation & Sowing", details: "Ensure soil is well-tilled. Sow seeds at a depth of 2-3 cm, maintaining proper spacing." },
-        { week: 2, task: "Sample: Germination & First Watering", details: "Light watering is crucial. Monitor for seed germination which should occur within 7-10 days." },
-        { week: 3, task: "Sample: Weeding", details: "Perform first round of weeding to remove unwanted plants competing for nutrients." },
-        { week: 4, task: "Sample: First Fertilization", details: "Apply a balanced NPK fertilizer as per soil test recommendations." },
-    ]
-};
-
 export function SmartReminders({ onBack }: SmartRemindersProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<SmartRemindersOutput | null>(sampleResult);
+  const [result, setResult] = useState<SmartRemindersOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -80,7 +71,7 @@ export function SmartReminders({ onBack }: SmartRemindersProps) {
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
           <CardTitle>Smart Reminders</CardTitle>
-          <CardDescription>Generate a weekly schedule for crop care. Below is a sample output.</CardDescription>
+          <CardDescription>Generate a weekly schedule for crop care.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

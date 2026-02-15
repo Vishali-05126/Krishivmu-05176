@@ -22,32 +22,9 @@ interface GovSchemeFinderProps {
   onBack: () => void;
 }
 
-const sampleResult: GovSchemeOutput = {
-  schemes: [
-    {
-      name: 'Sample: Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)',
-      description: 'A central sector scheme with 100% funding from the Government of India. It provides income support to all landholding farmer families in the country.',
-      eligibility: 'All landholding farmer families.',
-      link: 'https://pmkisan.gov.in/'
-    },
-    {
-      name: 'Sample: Pradhan Mantri Fasal Bima Yojana (PMFBY)',
-      description: 'A crop insurance scheme to provide comprehensive insurance coverage and financial support to the farmers in the event of failure of any of the notified crops as a result of natural calamities, pests & diseases.',
-      eligibility: 'All farmers including sharecroppers and tenant farmers growing notified crops in the notified areas are eligible for coverage.',
-      link: 'https://pmfby.gov.in/'
-    },
-    {
-      name: 'Sample: Rashtriya Krishi Vikas Yojana (RKVY)',
-      description: 'A scheme to incentivize states to increase public investment in Agriculture and allied sectors.',
-      eligibility: 'Varies by state and specific project. Generally for state agriculture departments and allied bodies.',
-      link: 'https://rkvy.nic.in/'
-    }
-  ]
-};
-
 export function GovSchemeFinder({ onBack }: GovSchemeFinderProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<GovSchemeOutput | null>(sampleResult);
+  const [result, setResult] = useState<GovSchemeOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -84,7 +61,7 @@ export function GovSchemeFinder({ onBack }: GovSchemeFinderProps) {
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
           <CardTitle>Government Schemes Finder</CardTitle>
-          <CardDescription>Find relevant government schemes, subsidies, and financial support. Below is a sample output.</CardDescription>
+          <CardDescription>Find relevant government schemes, subsidies, and financial support.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

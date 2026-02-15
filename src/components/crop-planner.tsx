@@ -22,29 +22,9 @@ interface CropPlannerProps {
   onBack: () => void;
 }
 
-const sampleResult: CropPlannerOutput = {
-  recommendations: [
-    {
-      crop: 'Sample: Soybean',
-      reason: 'This is a sample recommendation. Black soil is ideal for soybean cultivation, and July is the peak monsoon season in Nashik, providing ample water for sowing.',
-      plantingTime: 'First two weeks of July',
-    },
-    {
-      crop: 'Sample: Cotton',
-      reason: 'This is a sample recommendation. Cotton grows well in the warm, humid climate of July and thrives in the water-retentive black soil of the region.',
-      plantingTime: 'Throughout July',
-    },
-    {
-      crop: 'Sample: Tur (Pigeon Pea)',
-      reason: 'This is a sample recommendation. It\'s a hardy, drought-resistant crop that complements the region\'s rainfall pattern and soil type.',
-      plantingTime: 'Late June to early July',
-    },
-  ],
-};
-
 export function CropPlanner({ onBack }: CropPlannerProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<CropPlannerOutput | null>(sampleResult);
+  const [result, setResult] = useState<CropPlannerOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -81,7 +61,7 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
           <CardTitle>Crop Planner</CardTitle>
-          <CardDescription>Get AI advice on what to plant and when for the best yield. Below is a sample output.</CardDescription>
+          <CardDescription>Get AI advice on what to plant and when for the best yield.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
