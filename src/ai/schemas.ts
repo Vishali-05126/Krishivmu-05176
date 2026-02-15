@@ -69,3 +69,40 @@ export const SmartRemindersOutputSchema = z.object({
   })).describe('A schedule of weekly reminders.'),
 });
 export type SmartRemindersOutput = z.infer<typeof SmartRemindersOutputSchema>;
+
+
+// Schema for Equipment Rental
+export const EquipmentRentalInputSchema = z.object({
+    tool: z.string().describe('The tool or machinery the user wants to rent (e.g., "Tractor").'),
+    location: z.string().describe('The user\'s location to find nearby rental providers.'),
+});
+export type EquipmentRentalInput = z.infer<typeof EquipmentRentalInputSchema>;
+
+export const EquipmentRentalOutputSchema = z.object({
+    rentals: z.array(z.object({
+        providerName: z.string().describe('The fictional name of the rental provider.'),
+        location: z.string().describe('The address of the provider.'),
+        contact: z.string().describe('A fictional contact number for the provider.'),
+        price: z.string().describe('An estimated daily rental price.'),
+    })).describe('A list of potential equipment rental providers.'),
+});
+export type EquipmentRentalOutput = z.infer<typeof EquipmentRentalOutputSchema>;
+
+// Schema for Land Marketplace
+export const LandMarketplaceInputSchema = z.object({
+    action: z.enum(['buy', 'sell', 'rent']).describe('The action the user wants to perform.'),
+    location: z.string().describe('The user\'s location of interest.'),
+    landSize: z.string().describe('The desired size of the land (e.g., "5 acres").'),
+});
+export type LandMarketplaceInput = z.infer<typeof LandMarketplaceInputSchema>;
+
+export const LandMarketplaceOutputSchema = z.object({
+    listings: z.array(z.object({
+        listingType: z.string().describe('The type of listing (e.g., "For Sale", "For Rent").'),
+        location: z.string().describe('The location of the land.'),
+        size: z.string().describe('The size of the land in acres.'),
+        price: z.string().describe('The estimated price or rent.'),
+        contact: z.string().describe('A fictional contact person for the listing.'),
+    })).describe('A list of land listings.'),
+});
+export type LandMarketplaceOutput = z.infer<typeof LandMarketplaceOutputSchema>;

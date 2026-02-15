@@ -8,6 +8,8 @@ import { MarketAnalysis } from './market-analysis';
 import { useToast } from '@/hooks/use-toast';
 import { FarmerExchange } from './farmer-exchange';
 import { SmartReminders } from './smart-reminders';
+import { EquipmentRental } from './equipment-rental';
+import { LandMarketplace } from './land-marketplace';
 
 type Feature = {
   id: string;
@@ -15,12 +17,11 @@ type Feature = {
   description: string;
   icon: React.ElementType;
   className: string;
-  component?: React.ElementType<{ onBack: () => void; }>;
+  component: React.ElementType<{ onBack: () => void; }>;
 };
 
 export function Dashboard() {
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
-  const { toast } = useToast();
 
   const features: Feature[] = [
     {
@@ -37,6 +38,7 @@ export function Dashboard() {
       description: 'Find and rent agricultural tools and machinery nearby.',
       icon: Wrench,
       className: 'text-chart-4 bg-chart-4/10',
+      component: EquipmentRental,
     },
     {
       id: 'land-marketplace',
@@ -44,6 +46,7 @@ export function Dashboard() {
       description: 'Buy, sell, or rent agricultural land in your area.',
       icon: Landmark,
       className: 'text-primary bg-primary/10',
+      component: LandMarketplace,
     },
     {
       id: 'market-analysis',
@@ -80,15 +83,7 @@ export function Dashboard() {
   ];
 
   const handleFeatureClick = (featureId: string) => {
-    const feature = features.find(f => f.id === featureId);
-    if (feature && feature.component) {
-      setActiveFeature(featureId);
-    } else {
-      toast({
-        title: 'Coming Soon!',
-        description: 'This feature is under development.',
-      });
-    }
+    setActiveFeature(featureId);
   };
   
   const handleBack = () => {

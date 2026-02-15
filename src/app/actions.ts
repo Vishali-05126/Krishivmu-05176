@@ -4,7 +4,9 @@ import { planCrops } from '@/ai/flows/ai-code-explanation';
 import { analyzeMarkets } from '@/ai/flows/ai-generate-css';
 import { findExchangeMatches } from '@/ai/flows/farmer-exchange-flow';
 import { generateReminders } from '@/ai/flows/smart-reminders-flow';
-import { CropPlannerInput, CropPlannerOutput, FarmerExchangeInput, FarmerExchangeOutput, MarketAnalysisInput, MarketAnalysisOutput, SmartRemindersInput, SmartRemindersOutput } from '@/ai/schemas';
+import { findEquipmentRentals } from '@/ai/flows/equipment-rental-flow';
+import { findLandListings } from '@/ai/flows/land-marketplace-flow';
+import { CropPlannerInput, CropPlannerOutput, FarmerExchangeInput, FarmerExchangeOutput, MarketAnalysisInput, MarketAnalysisOutput, SmartRemindersInput, SmartRemindersOutput, EquipmentRentalInput, EquipmentRentalOutput, LandMarketplaceInput, LandMarketplaceOutput } from '@/ai/schemas';
 
 export async function planCropsAction(input: CropPlannerInput): Promise<{ success: boolean; data?: CropPlannerOutput; error?: string }> {
   try {
@@ -43,5 +45,25 @@ export async function generateRemindersAction(input: SmartRemindersInput): Promi
   } catch (error) {
     console.error(error);
     return { success: false, error: 'Failed to generate reminders from AI.' };
+  }
+}
+
+export async function findEquipmentRentalsAction(input: EquipmentRentalInput): Promise<{ success: boolean; data?: EquipmentRentalOutput; error?: string }> {
+  try {
+    const result = await findEquipmentRentals(input);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: 'Failed to find rental providers from AI.' };
+  }
+}
+
+export async function findLandListingsAction(input: LandMarketplaceInput): Promise<{ success: boolean; data?: LandMarketplaceOutput; error?: string }> {
+  try {
+    const result = await findLandListings(input);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: 'Failed to find land listings from AI.' };
   }
 }
