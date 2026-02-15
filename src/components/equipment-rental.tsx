@@ -21,9 +21,32 @@ interface EquipmentRentalProps {
   onBack: () => void;
 }
 
+const sampleResult: EquipmentRentalOutput = {
+  rentals: [
+    {
+      providerName: 'Sample Rentals: Kisan Tools',
+      location: 'Khadki, Pune',
+      contact: '+91-9876543210',
+      price: '₹2000/day for Tractor'
+    },
+    {
+      providerName: 'Sample Rentals: Agri-Machinery Solutions',
+      location: 'Chakan, Pune',
+      contact: '+91-9123456789',
+      price: '₹1800/day for Tractor'
+    },
+    {
+      providerName: 'Sample Rentals: Gramin Seva Kendra',
+      location: 'Wagholi, Pune',
+      contact: '+91-9988776655',
+      price: '₹2200/day for Tractor with driver'
+    }
+  ]
+};
+
 export function EquipmentRental({ onBack }: EquipmentRentalProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<EquipmentRentalOutput | null>(null);
+  const [result, setResult] = useState<EquipmentRentalOutput | null>(sampleResult);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,7 +82,7 @@ export function EquipmentRental({ onBack }: EquipmentRentalProps) {
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
           <CardTitle>Equipment Rental</CardTitle>
-          <CardDescription>Find and rent agricultural tools and machinery nearby.</CardDescription>
+          <CardDescription>Find and rent agricultural tools and machinery nearby. Below is a sample output.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

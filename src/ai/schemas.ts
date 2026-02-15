@@ -106,3 +106,21 @@ export const LandMarketplaceOutputSchema = z.object({
     })).describe('A list of land listings.'),
 });
 export type LandMarketplaceOutput = z.infer<typeof LandMarketplaceOutputSchema>;
+
+// Schema for Government Scheme Finder
+export const GovSchemeInputSchema = z.object({
+    location: z.string().describe('The geographical location (e.g., state, district) of the farmer.'),
+    crop: z.string().optional().describe('The crop the farmer is cultivating.'),
+    category: z.string().optional().describe('The category of the farmer (e.g., "Small Farmer", "Woman Farmer").'),
+});
+export type GovSchemeInput = z.infer<typeof GovSchemeInputSchema>;
+
+export const GovSchemeOutputSchema = z.object({
+    schemes: z.array(z.object({
+        name: z.string().describe('The name of the government scheme.'),
+        description: z.string().describe('A brief description of the scheme and its benefits.'),
+        eligibility: z.string().describe('The eligibility criteria for the scheme.'),
+        link: z.string().url().describe('An official link for more information or to apply.'),
+    })).describe('A list of relevant government schemes.'),
+});
+export type GovSchemeOutput = z.infer<typeof GovSchemeOutputSchema>;

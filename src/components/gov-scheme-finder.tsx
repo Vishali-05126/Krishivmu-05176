@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { planCropsAction } from '@/app/actions';
-import { CropPlannerInput, CropPlannerOutput } from '@/ai/schemas';
+import { findGovSchemesAction } from '@/app/actions';
+import { GovSchemeInput, GovSchemeOutput } from '@/ai/schemas';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -14,45 +14,48 @@ import { Loader2, ArrowLeft } from 'lucide-react';
 
 const formSchema = z.object({
   location: z.string().min(2, 'Location is required.'),
-  soilType: z.string().min(2, 'Soil type is required.'),
-  month: z.string().min(2, 'Month is required.'),
+  crop: z.string().optional(),
+  category: z.string().optional(),
 });
 
-interface CropPlannerProps {
+interface GovSchemeFinderProps {
   onBack: () => void;
 }
 
-const sampleResult: CropPlannerOutput = {
-  recommendations: [
+const sampleResult: GovSchemeOutput = {
+  schemes: [
     {
-      crop: 'Sample: Soybean',
-      reason: 'This is a sample recommendation. Black soil is ideal for soybean cultivation, and July is the peak monsoon season in Nashik, providing ample water for sowing.',
-      plantingTime: 'First two weeks of July',
+      name: 'Sample: Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)',
+      description: 'A central sector scheme with 100% funding from the Government of India. It provides income support to all landholding farmer families in the country.',
+      eligibility: 'All landholding farmer families.',
+      link: 'https://pmkisan.gov.in/'
     },
     {
-      crop: 'Sample: Cotton',
-      reason: 'This is a sample recommendation. Cotton grows well in the warm, humid climate of July and thrives in the water-retentive black soil of the region.',
-      plantingTime: 'Throughout July',
+      name: 'Sample: Pradhan Mantri Fasal Bima Yojana (PMFBY)',
+      description: 'A crop insurance scheme to provide comprehensive insurance coverage and financial support to the farmers in the event of failure of any of the notified crops as a result of natural calamities, pests & diseases.',
+      eligibility: 'All farmers including sharecroppers and tenant farmers growing notified crops in the notified areas are eligible for coverage.',
+      link: 'https://pmfby.gov.in/'
     },
     {
-      crop: 'Sample: Tur (Pigeon Pea)',
-      reason: 'This is a sample recommendation. It\'s a hardy, drought-resistant crop that complements the region\'s rainfall pattern and soil type.',
-      plantingTime: 'Late June to early July',
-    },
-  ],
+      name: 'Sample: Rashtriya Krishi Vikas Yojana (RKVY)',
+      description: 'A scheme to incentivize states to increase public investment in Agriculture and allied sectors.',
+      eligibility: 'Varies by state and specific project. Generally for state agriculture departments and allied bodies.',
+      link: 'https://rkvy.nic.in/'
+    }
+  ]
 };
 
-export function CropPlanner({ onBack }: CropPlannerProps) {
+export function GovSchemeFinder({ onBack }: GovSchemeFinderProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<CropPlannerOutput | null>(sampleResult);
+  const [result, setResult] = useState<GovSchemeOutput | null>(sampleResult);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       location: '',
-      soilType: '',
-      month: '',
+      crop: '',
+      category: '',
     },
   });
 
@@ -60,9 +63,9 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
     setLoading(true);
     setResult(null);
     setError(null);
-    
-    const input: CropPlannerInput = values;
-    const response = await planCropsAction(input);
+
+    const input: GovSchemeInput = values;
+    const response = await findGovSchemesAction(input);
 
     if (response.success && response.data) {
       setResult(response.data);
@@ -80,8 +83,8 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
       </Button>
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
-          <CardTitle>Crop Planner</CardTitle>
-          <CardDescription>Get AI advice on what to plant and when for the best yield. Below is a sample output.</CardDescription>
+          <CardTitle>Government Schemes Finder</CardTitle>
+          <CardDescription>Find relevant government schemes, subsidies, and financial support. Below is a sample output.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -92,9 +95,9 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
                   name="location"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Location</FormLabel>
+                      <FormLabel>Your Location</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Nashik, Maharashtra" {...field} />
+                        <Input placeholder="e.g., Maharashtra" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -102,12 +105,12 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
                 />
                 <FormField
                   control={form.control}
-                  name="soilType"
+                  name="crop"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Soil Type</FormLabel>
+                      <FormLabel>Crop (Optional)</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Loamy, Sandy, Clay" {...field} />
+                        <Input placeholder="e.g., Sugarcane" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -115,12 +118,12 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
                 />
                 <FormField
                   control={form.control}
-                  name="month"
+                  name="category"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Planting Month</FormLabel>
+                      <FormLabel>Category (Optional)</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., June" {...field} />
+                        <Input placeholder="e.g., Small Farmer" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -129,25 +132,36 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
               </div>
               <Button type="submit" disabled={loading}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Get Recommendations
+                Find Schemes
               </Button>
             </form>
           </Form>
 
           {error && <p className="text-destructive mt-4">{error}</p>}
-          
+
           {result && (
             <div className="mt-8">
-              <h3 className="text-2xl font-bold mb-4">Crop Recommendations</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {result.recommendations.map((rec, index) => (
+              <h3 className="text-2xl font-bold mb-4">Recommended Schemes</h3>
+              <div className="space-y-6">
+                {result.schemes.map((scheme, index) => (
                   <Card key={index}>
                     <CardHeader>
-                      <CardTitle>{rec.crop}</CardTitle>
-                      <CardDescription>Best planting time: {rec.plantingTime}</CardDescription>
+                      <CardTitle>{scheme.name}</CardTitle>
                     </CardHeader>
-                    <CardContent>
-                      <p>{rec.reason}</p>
+                    <CardContent className="space-y-4">
+                      <div>
+                        <h4 className="font-semibold">Description</h4>
+                        <p className="text-muted-foreground">{scheme.description}</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">Eligibility</h4>
+                        <p className="text-muted-foreground">{scheme.eligibility}</p>
+                      </div>
+                      <Button asChild variant="link" className="p-0 h-auto">
+                        <a href={scheme.link} target="_blank" rel="noopener noreferrer">
+                          Learn More
+                        </a>
+                      </Button>
                     </CardContent>
                   </Card>
                 ))}

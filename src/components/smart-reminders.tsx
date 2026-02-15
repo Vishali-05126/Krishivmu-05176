@@ -30,9 +30,18 @@ interface SmartRemindersProps {
   onBack: () => void;
 }
 
+const sampleResult: SmartRemindersOutput = {
+    reminders: [
+        { week: 1, task: "Sample: Soil Preparation & Sowing", details: "Ensure soil is well-tilled. Sow seeds at a depth of 2-3 cm, maintaining proper spacing." },
+        { week: 2, task: "Sample: Germination & First Watering", details: "Light watering is crucial. Monitor for seed germination which should occur within 7-10 days." },
+        { week: 3, task: "Sample: Weeding", details: "Perform first round of weeding to remove unwanted plants competing for nutrients." },
+        { week: 4, task: "Sample: First Fertilization", details: "Apply a balanced NPK fertilizer as per soil test recommendations." },
+    ]
+};
+
 export function SmartReminders({ onBack }: SmartRemindersProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<SmartRemindersOutput | null>(null);
+  const [result, setResult] = useState<SmartRemindersOutput | null>(sampleResult);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -71,7 +80,7 @@ export function SmartReminders({ onBack }: SmartRemindersProps) {
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
           <CardTitle>Smart Reminders</CardTitle>
-          <CardDescription>Generate a weekly schedule for crop care, from watering to pest control.</CardDescription>
+          <CardDescription>Generate a weekly schedule for crop care. Below is a sample output.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -156,8 +165,8 @@ export function SmartReminders({ onBack }: SmartRemindersProps) {
 
           {result && (
             <div className="mt-8">
-              <h3 className="text-2xl font-bold mb-4">Your 12-Week Crop Care Schedule</h3>
-               <Accordion type="single" collapsible className="w-full">
+              <h3 className="text-2xl font-bold mb-4">Your Crop Care Schedule</h3>
+               <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
                 {result.reminders.map((reminder) => (
                     <AccordionItem value={`item-${reminder.week}`} key={reminder.week}>
                         <AccordionTrigger>Week {reminder.week}: {reminder.task}</AccordionTrigger>

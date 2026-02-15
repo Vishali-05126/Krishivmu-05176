@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { analyzeMarketsAction } from '@/app/actions';
-import { MarketAnalysisInput, MarketAnalysisOutput } from '@/ai/flows/ai-generate-css';
+import { MarketAnalysisInput, MarketAnalysisOutput } from '@/ai/schemas';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -21,9 +21,32 @@ interface MarketAnalysisProps {
   onBack: () => void;
 }
 
+const sampleResult: MarketAnalysisOutput = {
+  markets: [
+    {
+      marketName: 'Sample: APMC Market, Vashi',
+      location: 'Navi Mumbai, Maharashtra',
+      profitMargin: 'Prices are currently 10-15% above average due to high demand.',
+      contact: 'Fictional Buyer: +91-9876543210'
+    },
+    {
+      marketName: 'Sample: Lasalgaon Onion Market',
+      location: 'Lasalgaon, Nashik, Maharashtra',
+      profitMargin: 'Stable prices with high volume trading. Good for bulk sales.',
+      contact: 'Fictional Wholesaler: +91-9123456789'
+    },
+    {
+      marketName: 'Sample: Azadpur Mandi',
+      location: 'Delhi',
+      profitMargin: 'Highest profit potential but involves higher logistics costs.',
+      contact: 'Fictional Trader: +91-9988776655'
+    }
+  ]
+};
+
 export function MarketAnalysis({ onBack }: MarketAnalysisProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<MarketAnalysisOutput | null>(null);
+  const [result, setResult] = useState<MarketAnalysisOutput | null>(sampleResult);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,7 +82,7 @@ export function MarketAnalysis({ onBack }: MarketAnalysisProps) {
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
           <CardTitle>Market Analysis</CardTitle>
-          <CardDescription>Discover the best markets to sell your produce for maximum profit.</CardDescription>
+          <CardDescription>Discover the best markets to sell your produce for maximum profit. Below is a sample output.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

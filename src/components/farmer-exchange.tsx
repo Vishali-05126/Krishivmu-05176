@@ -22,9 +22,32 @@ interface FarmerExchangeProps {
   onBack: () => void;
 }
 
+const sampleResult: FarmerExchangeOutput = {
+  matches: [
+    {
+      farmerName: 'Sample Farmer: Ramesh Kumar',
+      location: 'Nearby Village, Pune',
+      contact: '+91-9876512345',
+      exchangeDetails: 'Has 10 quintals of Rice, wants Wheat. Willing to trade 1:1 ratio.'
+    },
+    {
+      farmerName: 'Sample Farmer: Sita Devi',
+      location: 'Baramati, Maharashtra',
+      contact: '+91-9123498765',
+      exchangeDetails: 'Has surplus Rice. Looking for Wheat for personal consumption.'
+    },
+    {
+      farmerName: 'Sample Farmer: Gopal Yadav',
+      location: 'Shirur, Maharashtra',
+      contact: '+91-9988765432',
+      exchangeDetails: 'Offers high-quality Basmati Rice in exchange for Lokwan Wheat.'
+    }
+  ]
+};
+
 export function FarmerExchange({ onBack }: FarmerExchangeProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<FarmerExchangeOutput | null>(null);
+  const [result, setResult] = useState<FarmerExchangeOutput | null>(sampleResult);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -61,7 +84,7 @@ export function FarmerExchange({ onBack }: FarmerExchangeProps) {
       <Card className="bg-card/80 backdrop-blur-sm border-border/20">
         <CardHeader>
           <CardTitle>Farmer to Farmer Exchange</CardTitle>
-          <CardDescription>Find other farmers to exchange or barter crops with.</CardDescription>
+          <CardDescription>Find other farmers to exchange or barter crops with. Below is a sample output.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Sprout, Wrench, Landmark, BarChart, Bell, Handshake, Repeat } from 'lucide-react';
+import { Sprout, Wrench, Landmark, BarChart, Bell, Handshake, Repeat, Banknote } from 'lucide-react';
 import { CropPlanner } from './crop-planner';
 import { MarketAnalysis } from './market-analysis';
 import { useToast } from '@/hooks/use-toast';
@@ -10,6 +10,8 @@ import { FarmerExchange } from './farmer-exchange';
 import { SmartReminders } from './smart-reminders';
 import { EquipmentRental } from './equipment-rental';
 import { LandMarketplace } from './land-marketplace';
+import { GovSchemeFinder } from './gov-scheme-finder';
+
 
 type Feature = {
   id: string;
@@ -80,6 +82,14 @@ export function Dashboard() {
       className: 'text-accent bg-accent/10',
       component: FarmerExchange,
     },
+     {
+      id: 'gov-schemes',
+      title: 'Government Schemes',
+      description: 'Find relevant government schemes and subsidies.',
+      icon: Banknote,
+      className: 'text-blue-500 bg-blue-500/10',
+      component: GovSchemeFinder,
+    },
   ];
 
   const handleFeatureClick = (featureId: string) => {
@@ -102,7 +112,7 @@ export function Dashboard() {
         <h2 className="text-4xl font-bold tracking-tight">Welcome to KrishivSeth AI</h2>
         <p className="text-muted-foreground mt-3 max-w-2xl mx-auto text-lg">Your all-in-one platform for smart agriculture, from crop planning to market sales.</p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {features.map((feature) => (
           <Card 
             key={feature.title} 

@@ -6,7 +6,8 @@ import { findExchangeMatches } from '@/ai/flows/farmer-exchange-flow';
 import { generateReminders } from '@/ai/flows/smart-reminders-flow';
 import { findEquipmentRentals } from '@/ai/flows/equipment-rental-flow';
 import { findLandListings } from '@/ai/flows/land-marketplace-flow';
-import { CropPlannerInput, CropPlannerOutput, FarmerExchangeInput, FarmerExchangeOutput, MarketAnalysisInput, MarketAnalysisOutput, SmartRemindersInput, SmartRemindersOutput, EquipmentRentalInput, EquipmentRentalOutput, LandMarketplaceInput, LandMarketplaceOutput } from '@/ai/schemas';
+import { findGovSchemes } from '@/ai/flows/gov-scheme-flow';
+import { CropPlannerInput, CropPlannerOutput, FarmerExchangeInput, FarmerExchangeOutput, MarketAnalysisInput, MarketAnalysisOutput, SmartRemindersInput, SmartRemindersOutput, EquipmentRentalInput, EquipmentRentalOutput, LandMarketplaceInput, LandMarketplaceOutput, GovSchemeInput, GovSchemeOutput } from '@/ai/schemas';
 
 export async function planCropsAction(input: CropPlannerInput): Promise<{ success: boolean; data?: CropPlannerOutput; error?: string }> {
   try {
@@ -66,4 +67,14 @@ export async function findLandListingsAction(input: LandMarketplaceInput): Promi
     console.error(error);
     return { success: false, error: 'Failed to find land listings from AI.' };
   }
+}
+
+export async function findGovSchemesAction(input: GovSchemeInput): Promise<{ success: boolean; data?: GovSchemeOutput; error?: string }> {
+    try {
+        const result = await findGovSchemes(input);
+        return { success: true, data: result };
+    } catch (error) {
+        console.error(error);
+        return { success: false, error: 'Failed to find government schemes from AI.' };
+    }
 }
