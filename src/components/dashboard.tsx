@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Sprout, Wrench, Landmark, BarChart, Bell, Handshake } from 'lucide-react';
+import { Sprout, Wrench, Landmark, BarChart, Bell, Handshake, Repeat } from 'lucide-react';
 
 export function Dashboard() {
   const features = [
@@ -40,6 +40,12 @@ export function Dashboard() {
         description: 'Directly contact wholesale buyers for your crops.',
         icon: Handshake,
         className: 'text-chart-3 bg-chart-3/10',
+    },
+    {
+      title: 'Farmer to Farmer Exchange',
+      description: 'Exchange or barter crops, like wheat for rice, directly with other farmers.',
+      icon: Repeat,
+      className: 'text-accent bg-accent/10',
     },
   ];
 
