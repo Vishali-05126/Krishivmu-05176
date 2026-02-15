@@ -103,7 +103,7 @@ export function Dashboard() {
   const ActiveComponent = features.find(f => f.id === activeFeature)?.component;
 
   if (ActiveComponent) {
-    return <ActiveComponent onBack={handleBack} />;
+    return <ActiveComponent key={activeFeature} onBack={handleBack} />;
   }
 
   return (
