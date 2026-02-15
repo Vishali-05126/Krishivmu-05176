@@ -7,6 +7,7 @@ import { CropPlanner } from './crop-planner';
 import { MarketAnalysis } from './market-analysis';
 import { useToast } from '@/hooks/use-toast';
 import { FarmerExchange } from './farmer-exchange';
+import { SmartReminders } from './smart-reminders';
 
 type Feature = {
   id: string;
@@ -58,6 +59,7 @@ export function Dashboard() {
       description: 'Get reminders for watering, fertilizing, and pest control.',
       icon: Bell,
       className: 'text-chart-5 bg-chart-5/10',
+      component: SmartReminders,
     },
     {
         id: 'wholesale-connect',

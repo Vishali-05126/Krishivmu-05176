@@ -52,3 +52,20 @@ export const FarmerExchangeOutputSchema = z.object({
   })).describe('A list of potential farmer exchange matches.'),
 });
 export type FarmerExchangeOutput = z.infer<typeof FarmerExchangeOutputSchema>;
+
+// Schema for Smart Reminders
+export const SmartRemindersInputSchema = z.object({
+  crop: z.string().describe('The crop for which to generate reminders.'),
+  plantingDate: z.string().describe('The date the crop was planted, in YYYY-MM-DD format.'),
+  location: z.string().describe('The geographical location of the farm.'),
+});
+export type SmartRemindersInput = z.infer<typeof SmartRemindersInputSchema>;
+
+export const SmartRemindersOutputSchema = z.object({
+  reminders: z.array(z.object({
+    week: z.number().describe('The week number after planting (e.g., 1, 2, 3).'),
+    task: z.string().describe('The main task for the week (e.g., "Watering", "Fertilizing", "Pest Control").'),
+    details: z.string().describe('Specific details and recommendations for the task.'),
+  })).describe('A schedule of weekly reminders.'),
+});
+export type SmartRemindersOutput = z.infer<typeof SmartRemindersOutputSchema>;

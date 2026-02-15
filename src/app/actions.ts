@@ -3,7 +3,8 @@
 import { planCrops } from '@/ai/flows/ai-code-explanation';
 import { analyzeMarkets } from '@/ai/flows/ai-generate-css';
 import { findExchangeMatches } from '@/ai/flows/farmer-exchange-flow';
-import { CropPlannerInput, CropPlannerOutput, FarmerExchangeInput, FarmerExchangeOutput, MarketAnalysisInput, MarketAnalysisOutput } from '@/ai/schemas';
+import { generateReminders } from '@/ai/flows/smart-reminders-flow';
+import { CropPlannerInput, CropPlannerOutput, FarmerExchangeInput, FarmerExchangeOutput, MarketAnalysisInput, MarketAnalysisOutput, SmartRemindersInput, SmartRemindersOutput } from '@/ai/schemas';
 
 export async function planCropsAction(input: CropPlannerInput): Promise<{ success: boolean; data?: CropPlannerOutput; error?: string }> {
   try {
@@ -32,5 +33,15 @@ export async function findExchangeMatchesAction(input: FarmerExchangeInput): Pro
   } catch (error) {
     console.error(error);
     return { success: false, error: 'Failed to find matches from AI.' };
+  }
+}
+
+export async function generateRemindersAction(input: SmartRemindersInput): Promise<{ success: boolean; data?: SmartRemindersOutput; error?: string }> {
+  try {
+    const result = await generateReminders(input);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: 'Failed to generate reminders from AI.' };
   }
 }
