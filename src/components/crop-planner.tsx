@@ -119,19 +119,23 @@ export function CropPlanner({ onBack }: CropPlannerProps) {
           {result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Crop Recommendations</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {result.recommendations.map((rec, index) => (
-                  <Card key={index}>
-                    <CardHeader>
-                      <CardTitle>{rec.crop}</CardTitle>
-                      <CardDescription>Best planting time: {rec.plantingTime}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p>{rec.reason}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              {result.recommendations.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {result.recommendations.map((rec, index) => (
+                    <Card key={index}>
+                      <CardHeader>
+                        <CardTitle>{rec.crop}</CardTitle>
+                        <CardDescription>Best planting time: {rec.plantingTime}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <p>{rec.reason}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground mt-4">No recommendations found for the given criteria.</p>
+              )}
             </div>
           )}
         </CardContent>

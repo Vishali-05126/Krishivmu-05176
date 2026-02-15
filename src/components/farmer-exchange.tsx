@@ -119,20 +119,24 @@ export function FarmerExchange({ onBack }: FarmerExchangeProps) {
           {result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Potential Matches</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {result.matches.map((match, index) => (
-                  <Card key={index}>
-                    <CardHeader>
-                      <CardTitle>{match.farmerName}</CardTitle>
-                      <CardDescription>{match.location}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                       <p>{match.exchangeDetails}</p>
-                       <p><strong>Contact:</strong> {match.contact}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              {result.matches.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {result.matches.map((match, index) => (
+                    <Card key={index}>
+                      <CardHeader>
+                        <CardTitle>{match.farmerName}</CardTitle>
+                        <CardDescription>{match.location}</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                         <p>{match.exchangeDetails}</p>
+                         <p><strong>Contact:</strong> {match.contact}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground mt-4">No matches found for the given criteria.</p>
+              )}
             </div>
           )}
         </CardContent>

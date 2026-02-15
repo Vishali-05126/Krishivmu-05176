@@ -157,16 +157,20 @@ export function SmartReminders({ onBack }: SmartRemindersProps) {
           {result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Your Crop Care Schedule</h3>
-               <Accordion type="single" collapsible className="w-full">
-                {result.reminders.map((reminder) => (
-                    <AccordionItem value={`item-${reminder.week}`} key={reminder.week}>
-                        <AccordionTrigger>Week {reminder.week}: {reminder.task}</AccordionTrigger>
-                        <AccordionContent>
-                        {reminder.details}
-                        </AccordionContent>
-                    </AccordionItem>
-                ))}
-              </Accordion>
+              {result.reminders.length > 0 ? (
+                <Accordion type="single" collapsible className="w-full">
+                  {result.reminders.map((reminder) => (
+                      <AccordionItem value={`item-${reminder.week}`} key={reminder.week}>
+                          <AccordionTrigger>Week {reminder.week}: {reminder.task}</AccordionTrigger>
+                          <AccordionContent>
+                          {reminder.details}
+                          </AccordionContent>
+                      </AccordionItem>
+                  ))}
+                </Accordion>
+              ) : (
+                <p className="text-muted-foreground mt-4">Could not generate a schedule for the given criteria.</p>
+              )}
             </div>
           )}
         </CardContent>

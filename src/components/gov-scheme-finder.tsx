@@ -119,30 +119,34 @@ export function GovSchemeFinder({ onBack }: GovSchemeFinderProps) {
           {result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Recommended Schemes</h3>
-              <div className="space-y-6">
-                {result.schemes.map((scheme, index) => (
-                  <Card key={index}>
-                    <CardHeader>
-                      <CardTitle>{scheme.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div>
-                        <h4 className="font-semibold">Description</h4>
-                        <p className="text-muted-foreground">{scheme.description}</p>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold">Eligibility</h4>
-                        <p className="text-muted-foreground">{scheme.eligibility}</p>
-                      </div>
-                      <Button asChild variant="link" className="p-0 h-auto">
-                        <a href={scheme.link} target="_blank" rel="noopener noreferrer">
-                          Learn More
-                        </a>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              {result.schemes.length > 0 ? (
+                <div className="space-y-6">
+                  {result.schemes.map((scheme, index) => (
+                    <Card key={index}>
+                      <CardHeader>
+                        <CardTitle>{scheme.name}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div>
+                          <h4 className="font-semibold">Description</h4>
+                          <p className="text-muted-foreground">{scheme.description}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold">Eligibility</h4>
+                          <p className="text-muted-foreground">{scheme.eligibility}</p>
+                        </div>
+                        <Button asChild variant="link" className="p-0 h-auto">
+                          <a href={scheme.link} target="_blank" rel="noopener noreferrer">
+                            Learn More
+                          </a>
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground mt-4">No schemes found for the given criteria.</p>
+              )}
             </div>
           )}
         </CardContent>

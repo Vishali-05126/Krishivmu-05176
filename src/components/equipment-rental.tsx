@@ -104,20 +104,24 @@ export function EquipmentRental({ onBack }: EquipmentRentalProps) {
           {result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Rental Providers</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {result.rentals.map((rental, index) => (
-                  <Card key={index}>
-                    <CardHeader>
-                      <CardTitle>{rental.providerName}</CardTitle>
-                      <CardDescription>{rental.location}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                       <p><strong>Price:</strong> {rental.price}</p>
-                       <p><strong>Contact:</strong> {rental.contact}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              {result.rentals.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {result.rentals.map((rental, index) => (
+                    <Card key={index}>
+                      <CardHeader>
+                        <CardTitle>{rental.providerName}</CardTitle>
+                        <CardDescription>{rental.location}</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                         <p><strong>Price:</strong> {rental.price}</p>
+                         <p><strong>Contact:</strong> {rental.contact}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground mt-4">No rental providers found for the given criteria.</p>
+              )}
             </div>
           )}
         </CardContent>

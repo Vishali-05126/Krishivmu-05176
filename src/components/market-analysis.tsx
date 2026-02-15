@@ -104,20 +104,24 @@ export function MarketAnalysis({ onBack }: MarketAnalysisProps) {
           {result && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4">Top Markets</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {result.markets.map((market, index) => (
-                  <Card key={index}>
-                    <CardHeader>
-                      <CardTitle>{market.marketName}</CardTitle>
-                      <CardDescription>{market.location}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <p><strong>Profit/Trend:</strong> {market.profitMargin}</p>
-                      <p><strong>Contact:</strong> {market.contact}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              {result.markets.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {result.markets.map((market, index) => (
+                    <Card key={index}>
+                      <CardHeader>
+                        <CardTitle>{market.marketName}</CardTitle>
+                        <CardDescription>{market.location}</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-2">
+                        <p><strong>Profit/Trend:</strong> {market.profitMargin}</p>
+                        <p><strong>Contact:</strong> {market.contact}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground mt-4">No markets found for the given criteria.</p>
+              )}
             </div>
           )}
         </CardContent>
